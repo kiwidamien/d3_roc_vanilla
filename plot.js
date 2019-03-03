@@ -13,9 +13,10 @@ const params = {
       {name: 'del', payback: false, score:[680, 740, 720]},
       {name: 'elenor', payback:true, score: [800, 780, 680]},
       {name: 'frankie', payback:true, score: [820, 810, 810]},
-      {name: 'martha', payback: true, score: [845, 850, 845]} // change model 1 back to 840 later
+      {name: 'martha', payback: true, score: [845, 840, 845]} 
     ],
-    modelNumber: 1
+    modelNumber: 1,
+		numRejected: 0,
 }
 
 const margin = 140,
@@ -128,7 +129,10 @@ const moveThreshold = (newThreshold) => {
 	[].forEach.call(thresholdLabels, (el) => {el.innerHTML = newThreshold;});
 
 	const {payback, noPayback, numRejected} = getTally(params.people, params.threshold, params.modelNumber);
+
+	params.numRejected = numRejected;
 	updateTable(payback, noPayback);
+	drawPoints();
 }
 
 const changeModelNumber = (modelNumber, delay=2500) => {
@@ -156,12 +160,26 @@ const makePlot = () => {
 		.attr("transform", "translate(0," + innerSize + ")")
 		.call(xAxis)
 		.append("text")
-		.attr("class", "axis-title")
-		.attr("x", innerSize - 10)
-		.attr("y", 8)
+		.attr("x", innerSize-20)
+		.attr("y", 35)
 		.attr("dy", ".71em")
 		.style("text-anchor", "end")
-		.text("t = ");
+
+	svg.append('g')
+		.attr('class', 'axis-title')
+		.append('text')
+		.text("FPR")
+		.attr("transform", "translate(0," + innerSize + ")")
+		.attr('x', innerSize-45)
+		.attr('y', 45);
+
+	svg.append('g')
+		.attr('class', 'axis-title')
+		.append('text')
+		.text("TPR")
+		.attr("transform", "translate(0," + 20 + ")rotate(-90)")
+		.attr('x', -35)
+		.attr('y', -50);
 
 	svg.append("g")
 		.attr("class", "axis axis--y")
@@ -170,8 +188,7 @@ const makePlot = () => {
 		.attr("class", "axis-title")
 		.attr("x", -24)
 		.attr("dy", ".32em")
-		.style("text-anchor", "end")
-		.text("ease(t) = ");
+		.style("text-anchor", "end");
 
 }
 
@@ -189,7 +206,7 @@ const drawPoints = () => {
 		.attr("class", "point")
 		.attr("cx", fpr_value => x(fpr_value))
 		.attr("cy", (fpr_value, index) => y(tpr[index]))
-		.attr("r", 5);
+		.attr("r", (fpr_value, index) => (index == params.numRejected ? 10:5));
 
 
 	const lineGenerator = d3.svg.line()
