@@ -13,14 +13,14 @@ const params = {
       {name: 'del', payback: false, score:[680, 740, 720]},
       {name: 'elenor', payback:true, score: [800, 780, 680]},
       {name: 'frankie', payback:true, score: [820, 810, 810]},
-      {name: 'martha', payback: true, score: [845, 840, 845]} 
+      {name: 'martha', payback: true, score: [845, 840, 845]}
     ],
     modelNumber: 1,
 		numRejected: 0,
 }
 
-const margin = 140,
-	outerSize = 960,
+const margin = 150,
+	outerSize = 900,
 	innerSize = outerSize - margin * 2;
 
 const minCreditScore = 600,
