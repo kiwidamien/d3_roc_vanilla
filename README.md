@@ -14,4 +14,4 @@ This will be presented as part of a blog post explaining ROC curves. A slightly 
 
 ## How to publish a D3 project
 
-Go to **Settings** -> **Github Pages** -> **Source** -> **Master Branch**
+Go to **Settings** -> **Github Pages** -> **Source** and select **Master Branch**.
